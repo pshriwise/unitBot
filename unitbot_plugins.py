@@ -29,7 +29,7 @@ def temptoC(message, incoming_message):
 def temptoF(message, incoming_message):
     print "Responding to", incoming_message
     try:
-        temp_f = float(incoming_message.split()[-1].lower().replace("c",""))
+        temp_c = float(incoming_message.split()[-1].lower().replace("c",""))
     except:
         return
     temp_f = C_to_F(temp_c)
