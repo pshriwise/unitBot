@@ -11,6 +11,9 @@ def convert(val, to):
     val.units = to
     return val
 
+
+" Temperature conversion "
+
 @respond_to('(.*)F', re.IGNORECASE)
 def temptoC(message, incoming_message):
     print("Responding to", incoming_message)
@@ -32,3 +35,27 @@ def temptoF(message, incoming_message):
     temp_in += C_to_F_fix
     temp = convert(temp_in * q.degC, to = q.degF) 
     message.reply("{}°C corresponds to {:.2f}°F!".format(incoming_message, float(temp.magnitude)))
+
+
+" Distance "
+
+
+@respond_to('(.*)m', re.IGNORECASE)
+def temptoF(message, incoming_message):
+    print("Responding to", incoming_message)
+    try:
+        temp_in = float(incoming_message.split()[-1].lower().replace("c",""))
+    except:
+        return
+    temp = convert(temp_in * q.m, to = q.inch) 
+    message.reply("{} m corresponds to {:.2f} \"!".format(incoming_message, float(temp.magnitude)))
+
+@respond_to('(.*)"', re.IGNORECASE)
+def temptoF(message, incoming_message):
+    print("Responding to", incoming_message)
+    try:
+        temp_in = float(incoming_message.split()[-1].lower().replace("c",""))
+    except:
+        return
+    temp = convert(temp_in * q.inch, to = q.m) 
+    message.reply("{} \" corresponds to {:.2f} m!".format(incoming_message, float(temp.magnitude)))
