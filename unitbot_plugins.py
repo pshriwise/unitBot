@@ -50,6 +50,16 @@ def temptoF(message, incoming_message):
     temp = convert(temp_in * q.m, to = q.inch) 
     message.reply("{} m corresponds to {:.2f} \"!".format(incoming_message, float(temp.magnitude)))
 
+@respond_to('(.*)cm', re.IGNORECASE)
+def temptoF(message, incoming_message):
+    print("Responding to", incoming_message)
+    try:
+        temp_in = float(incoming_message.split()[-1].lower().replace("c",""))
+    except:
+        return
+    temp = convert(temp_in * q.cm, to = q.inch) 
+    message.reply("{} m corresponds to {:.2f} \"!".format(incoming_message, float(temp.magnitude)))
+
 @respond_to('(.*)"', re.IGNORECASE)
 def temptoF(message, incoming_message):
     print("Responding to", incoming_message)
