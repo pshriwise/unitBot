@@ -69,3 +69,23 @@ def temptoF(message, incoming_message):
         return
     temp = convert(temp_in * q.inch, to = q.m) 
     message.reply("{} \" corresponds to {:.2f} m!".format(incoming_message, float(temp.magnitude)))
+
+@respond_to('(.*)mile', re.IGNORECASE)
+def temptoF(message, incoming_message):
+    print("Responding to", incoming_message)
+    try:
+        temp_in = float(incoming_message.split()[-1].lower().replace("c",""))
+    except:
+        return
+    temp = convert(temp_in * q.mile, to = q.km) 
+    message.reply("{} mile corresponds to {:.2f} km!".format(incoming_message, float(temp.magnitude)))
+
+@respond_to('(.*)km', re.IGNORECASE)
+def temptoF(message, incoming_message):
+    print("Responding to", incoming_message)
+    try:
+        temp_in = float(incoming_message.split()[-1].lower().replace("c",""))
+    except:
+        return
+    temp = convert(temp_in * q.km, to = q.mile) 
+    message.reply("{} km corresponds to {:.2f} mile!".format(incoming_message, float(temp.magnitude)))
