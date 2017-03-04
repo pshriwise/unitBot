@@ -1,2 +1,3 @@
 *.py
 private.py
+__pycache__/
