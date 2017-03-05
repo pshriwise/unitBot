@@ -53,7 +53,7 @@ def parse_value(message_content, replace_string):
     val_in = val_in.replace(replace_string,"")
     return float(val_in)
 
-
+# unit dictionnary, this is what we know hoe to convert...
 unit_dict = {
     'F' : {q.degF, q.degC},
     'C' : {q.degC, q.degF},
@@ -64,8 +64,6 @@ unit_dict = {
     'km': {q.km, q.mile},
     'mile': {q.mile, q.km}
     }
-
-
 
 # triggered if a msg contain '"number""something"' or '"number"" ""something"'
 F_match = '(\d{1,}) (.*)'
