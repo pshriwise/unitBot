@@ -55,15 +55,15 @@ def generate_ouput(value, input_units, output_units):
 
 # unit dictionnary, this is what we know hoe to convert...
 unit_dict = {
-    'F' : {q.degF, q.degC},
-    'C' : {q.degC, q.degF},
-    'm' : {q.m, q.inch},
-    'cm': {q.cm, q.inch},
-    'in': {q.inch, q.m},
-    '"': {q.inch, q.m},
-    'km': {q.km, q.mile},
-    'mile': {q.mile, q.km}
-    }
+    'C': [q.degC, q.degF],
+    'F': [q.degF, q.degC],
+    'm': [q.m, q.inch],
+    'cm': [q.cm, q.inch],
+    'in': [q.inch, q.m],
+    '"': [q.inch, q.m],
+    'km': [q.km, q.mile],
+    'mile': [q.mile, q.km]
+}
 
 # triggered if a msg contain '"number""something"' or '"number"" ""something"'
 F_match = '(\d{1,}) (.*)'
