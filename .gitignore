@@ -1,3 +1,4 @@
 *.py
+*.pyc
 private.py
 __pycache__/
