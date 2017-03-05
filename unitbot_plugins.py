@@ -75,6 +75,7 @@ F_match1 = '(\d{1,})(.*)'
 def find_match(message, value, unit):
     try:
         val_in = float(value)
+        # if unit is known grab the in/out unit and do the conversion...
         if unit in unit_dict:
             in_unit, out_unit = unit_dict[unit]
             out_str = generate_ouput(val_in, in_unit, out_unit)
