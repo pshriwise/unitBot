@@ -9,9 +9,11 @@ markup.config.use_unicode = True
 
 approved_channels = ['unit_test']
 
+# Fix conversion when using relative unit (as Celcius)
 F_to_C_fix = -32.0*5.0/9.0
 C_to_F_fix = +32.0
 
+# Convert the quantity in the output unit
 def convert(val, to):
     input_units = val.units.copy()
     val.units = to
@@ -36,6 +38,7 @@ def dispatch(message, output):
     else:
         message.reply(output)
 
+# Form the output message
 def generate_ouput(value, input_units, output_units):
     quantity_in = value * input_units
     quantity_out = convert(quantity_in.copy(), to = output_units)
@@ -43,12 +46,14 @@ def generate_ouput(value, input_units, output_units):
     output = "{:} corresponds to {:}!".format(quantity_in, quantity_out)
     return output
 
+# Not sure this is anymore necessary (with the new regular expression)
 def parse_value(message_content, replace_string):
     replace_string = replace_string.lower()
     val_in = message_content.split()[-1].lower()
     val_in = val_in.replace(replace_string,"")
     return float(val_in)
 
+# triggered if a msg contain '"number""something"' or '"number"" ""something"'
 F_match = '(\d{1,}) (.*)'
 F_match1 = '(\d{1,})(.*)'
 @respond_to(F_match, re.IGNORECASE)
@@ -56,10 +61,8 @@ F_match1 = '(\d{1,})(.*)'
 @respond_to(F_match1, re.IGNORECASE)
 @listen_to(F_match1, re.IGNORECASE)
 def find_match(message, value, unit):
-    print("pattern found")
-    print( value, " ", unit)
     try:
-        val_in = parse_value(value, unit)
+        val_in = float(value)
         if unit == 'F':
             in_unit = q.degF
             out_unit = q.degC
