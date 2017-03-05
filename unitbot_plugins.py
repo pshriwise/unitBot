@@ -47,11 +47,11 @@ def generate_ouput(value, input_units, output_units):
     return output
 
 # Not sure this is anymore necessary (with the new regular expression)
-def parse_value(message_content, replace_string):
-    replace_string = replace_string.lower()
-    val_in = message_content.split()[-1].lower()
-    val_in = val_in.replace(replace_string,"")
-    return float(val_in)
+#def parse_value(message_content, replace_string):
+#    replace_string = replace_string.lower()
+#    val_in = message_content.split()[-1].lower()
+#    val_in = val_in.replace(replace_string,"")
+#    return float(val_in)
 
 # unit dictionnary, this is what we know hoe to convert...
 unit_dict = {
