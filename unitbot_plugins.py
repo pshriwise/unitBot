@@ -53,6 +53,20 @@ def parse_value(message_content, replace_string):
     val_in = val_in.replace(replace_string,"")
     return float(val_in)
 
+
+unit_dict = {
+    'F' : {q.degF, q.degC},
+    'C' : {q.degC, q.degF},
+    'm' : {q.m, q.inch},
+    'cm': {q.cm, q.inch},
+    'in': {q.inch, q.m},
+    '"': {q.inch, q.m},
+    'km': {q.km, q.mile},
+    'mile': {q.mile, q.km}
+    }
+
+
+
 # triggered if a msg contain '"number""something"' or '"number"" ""something"'
 F_match = '(\d{1,}) (.*)'
 F_match1 = '(\d{1,})(.*)'
@@ -63,28 +77,11 @@ F_match1 = '(\d{1,})(.*)'
 def find_match(message, value, unit):
     try:
         val_in = float(value)
-        if unit == 'F':
-            in_unit = q.degF
-            out_unit = q.degC
-        elif unit == 'C':
-            in_unit = q.degC
-            out_unit = q.degF
-        elif unit == 'm':
-            in_unit = q.m
-            out_unit = q.inch
-        elif unit == 'cm':
-            in_unit = q.cm
-            out_unit = q.inch
-        elif unit == 'in' or unit == '"':
-            in_unit = q.inch
-            out_unit = q.m
-        elif unit == 'mile':
-            in_unit = q.mile
-            out_unit = q.km
-        elif unit == 'km':
-            in_unit = q.km
-            out_unit = q.mile
-        out_str = generate_ouput(val_in, in_unit, out_unit)
+        if unit in unit_dict:
+            in_unit, out_unit = unit_dict[unit]
+            out_str = generate_ouput(val_in, in_unit, out_unit)
+        else:
+            return
     except:
         return
     dispatch(message, out_str)
