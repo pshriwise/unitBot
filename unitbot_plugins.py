@@ -23,7 +23,7 @@ def FtoC(message, incoming_message):
         return
     val = convert(val_in * q.degF, to = q.degC) 
     val += C_to_F_fix * q.degC
-    message.reply("{}°F corresponds to {:.2f}°C!".format(val_in, float(val.magnitude)))
+    message.reply("{}F corresponds to {:.2f}C!".format(val_in, float(val.magnitude)))
 
 @respond_to('(.*)C', re.IGNORECASE)
 def CtoF(message, incoming_message):
@@ -34,7 +34,7 @@ def CtoF(message, incoming_message):
         return
     val_in += C_to_F_fix
     val = convert(val_in * q.degC, to = q.degF) 
-    message.reply("{}°C corresponds to {:.2f}°F!".format(val_in, float(val.magnitude)))
+    message.reply("{}C corresponds to {:.2f}F!".format(val_in, float(val.magnitude)))
 
 
 " Distance "
