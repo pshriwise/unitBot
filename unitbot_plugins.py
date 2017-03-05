@@ -8,22 +8,24 @@ F_to_C_fix = -32.0*5.0/9.0
 C_to_F_fix = +32.0*5.0/9.0
 
 def convert(val, to):
+    input_units = val.units
+    if(input_units == q.degC and to = q.degF):
+        val += F_to_C_fix * q.degF
     val.units = to
+    if(input_units == q.degF and to = q.degC):
+        val += C_to_F_fix * q.degC
     return val
-
 
 " Temperature conversion "
 
 @respond_to('(.*)F', re.IGNORECASE)
-def FtoC(message, incoming_message):
-    print("Responding to", incoming_message)
+def FtoC(message_body):
     try:
         val_in = float(incoming_message.split()[-1].lower().replace("f",""))
     except:
         return
     val = convert(val_in * q.degF, to = q.degC) 
-    val += C_to_F_fix * q.degC
-    message.reply("{}F corresponds to {:.2f}C!".format(val_in, float(val.magnitude)))
+    return "{}F corresponds to {:.2f}C!".format(val_in, float(val.magnitude)))
 
 @respond_to('(.*)C', re.IGNORECASE)
 def CtoF(message, incoming_message):
@@ -33,7 +35,6 @@ def CtoF(message, incoming_message):
     except:
         return
     val_in += C_to_F_fix
-    val = convert(val_in * q.degC, to = q.degF) 
     message.reply("{}C corresponds to {:.2f}F!".format(val_in, float(val.magnitude)))
 
 
