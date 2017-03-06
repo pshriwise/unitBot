@@ -1,6 +1,6 @@
 import private
 
-DEFAULT_REPLY= "Culdn't here right. Did u say brains?"
+DEFAULT_REPLY= "Hi! Do you have units for me to convert??"
 PLUGINS = [ 'slackbot.plugins',
             'unitbot_plugins']
 ERRORS_TO = private.ERRORS_TO
