@@ -1,3 +1,4 @@
+import sys
 from slackbot.bot import respond_to
 from slackbot.bot import listen_to
 import quantities as q
@@ -42,7 +43,10 @@ def dispatch(message, output):
 def generate_ouput(value, input_units, output_units):
     quantity_in = value * input_units
     quantity_out = convert(quantity_in.copy(), to = output_units)
-    quantity_out = round(quantity_out,2)
+    if sys.version_info[0] > 2:
+        quantity_out = round(quantity_out,2)
+    else:
+        quantity_out = round(quantity_out,2) * output_units
     output = "{:} corresponds to {:}!".format(quantity_in, quantity_out)
     return output
 
