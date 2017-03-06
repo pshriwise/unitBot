@@ -57,6 +57,12 @@ def generate_ouput(value, input_units, output_units):
 unit_dict = {
     'C': [q.degC, q.degF],
     'F': [q.degF, q.degC],
+    'L': [q.L, q.gallon],
+    'gallon': [q.gallon, q.L],
+    'g': [q.g, q.oz],
+    'oz': [q.oz, q.g],
+    'kg': [q.kg, q.lb],
+    'lb': [q.lb, q.kg],
     'm': [q.m, q.inch],
     'cm': [q.cm, q.inch],
     'in': [q.inch, q.m],
@@ -84,5 +90,5 @@ def find_match(message, value, unit):
     except:
         return
     dispatch(message, out_str)
-            
+
 
