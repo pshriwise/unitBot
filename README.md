@@ -10,7 +10,7 @@ To run one needs pivate.py file which contains (see example below):
 - api token,
 - a user name or channel name to send the error messages.
 
-``` 
+```
 API_TOKEN= 'my_slack_group_token' 
 ERRORS_TO= 'where_to_send_erorr' 
 ```
