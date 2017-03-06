@@ -4,11 +4,12 @@ from slackbot.bot import listen_to
 import quantities as q
 from quantities import markup
 import re
+import private
 
 #allows nice output from quantities
 markup.config.use_unicode = True
 
-approved_channels = ['unit_test']
+approved_channels = private.APPROVED_CHANNELS
 
 # Fix conversion when using relative unit (as Celcius)
 F_to_C_fix = -32.0*5.0/9.0
