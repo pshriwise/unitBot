@@ -9,9 +9,11 @@ markup.config.use_unicode = True
 
 approved_channels = ['unit_test']
 
+# Fix conversion when using relative unit (as Celcius)
 F_to_C_fix = -32.0*5.0/9.0
 C_to_F_fix = +32.0
 
+# Convert the quantity in the output unit
 def convert(val, to):
     input_units = val.units.copy()
     val.units = to
@@ -36,103 +38,57 @@ def dispatch(message, output):
     else:
         message.reply(output)
 
+# Form the output message
 def generate_ouput(value, input_units, output_units):
     quantity_in = value * input_units
     quantity_out = convert(quantity_in.copy(), to = output_units)
-    quantity_out = round(quantity_out,2) * output_units
+    quantity_out = round(quantity_out,2)
     output = "{:} corresponds to {:}!".format(quantity_in, quantity_out)
     return output
 
-def parse_value(message_content, replace_string):
-    replace_string = replace_string.lower()
-    val_in = message_content.split()[-1].lower()
-    val_in = val_in.replace(replace_string,"")
-    return float(val_in)
-    
-" Temperature conversion "
+# Not sure this is anymore necessary (with the new regular expression)
+#def parse_value(message_content, replace_string):
+#    replace_string = replace_string.lower()
+#    val_in = message_content.split()[-1].lower()
+#    val_in = val_in.replace(replace_string,"")
+#    return float(val_in)
 
-F_match = '(.*)F'
+# unit dictionnary, this is what we know hoe to convert...
+unit_dict = {
+    'C': [q.degC, q.degF],
+    'F': [q.degF, q.degC],
+    'L': [q.L, q.gallon],
+    'gallon': [q.gallon, q.L],
+    'g': [q.g, q.oz],
+    'oz': [q.oz, q.g],
+    'kg': [q.kg, q.lb],
+    'lb': [q.lb, q.kg],
+    'm': [q.m, q.inch],
+    'cm': [q.cm, q.inch],
+    'in': [q.inch, q.m],
+    '"': [q.inch, q.m],
+    'km': [q.km, q.mile],
+    'mile': [q.mile, q.km]
+}
+
+# triggered if a msg contain '"number""something"' or '"number"" ""something"'
+F_match = '(\d{1,}) (.*)'
+F_match1 = '(\d{1,})(.*)'
 @respond_to(F_match, re.IGNORECASE)
 @listen_to(F_match, re.IGNORECASE)
-def FtoC(message,incoming_message):
+@respond_to(F_match1, re.IGNORECASE)
+@listen_to(F_match1, re.IGNORECASE)
+def find_match(message, value, unit):
     try:
-        val_in = parse_value(incoming_message, "F")
-        out_str = generate_ouput(val_in, q.degF, q.degC)
+        val_in = float(value)
+        # if unit is known grab the in/out unit and do the conversion...
+        if unit in unit_dict:
+            in_unit, out_unit = unit_dict[unit]
+            out_str = generate_ouput(val_in, in_unit, out_unit)
+        else:
+            return
     except:
         return
     dispatch(message, out_str)
 
-C_match = '(.*)C'
-@respond_to(C_match, re.IGNORECASE)
-@listen_to(C_match, re.IGNORECASE)
-def CtoF(message, incoming_message):
-    try:
-        val_in = parse_value(incoming_message, "C")
-        out_str = generate_ouput(val_in, q.degC, q.degF)
-    except:
-        return
-    dispatch(message, out_str)
 
-" Distance "
-m_match = '(.*)m'
-@respond_to(m_match, re.IGNORECASE)
-@listen_to(m_match, re.IGNORECASE)
-def MtoInch(message, incoming_message):
-    try:
-        val_in = parse_value(incoming_message, "m")
-        out_str = generate_ouput(val_in, q.m, q.inch)
-    except:
-        return
-    dispatch(message, out_str)
-
-cm_match = '(.*)cm'
-@respond_to(cm_match, re.IGNORECASE)
-@listen_to(cm_match, re.IGNORECASE)
-def CMtoInch(message, incoming_message):
-    try:
-        val_in = parse_value(incoming_message, "cm")
-        out_str = generate_ouput(val_in, q.cm, q.inch)
-    except:
-        return
-    dispatch(message, out_str)
-
-inch_match = '(.*)"'
-inch_match1 = '(.*)in'
-@respond_to(inch_match, re.IGNORECASE)
-@listen_to(inch_match, re.IGNORECASE)
-@respond_to(inch_match1, re.IGNORECASE)
-@listen_to(inch_match1, re.IGNORECASE)
-def CMtoInch(message, incoming_message):
-    try:
-        val_in = parse_value(incoming_message, "in")
-        out_str = generate_ouput(val_in, q.inch, q.cm)
-    except:
-        pass
-    try:
-        val_in = parse_value(incoming_message, "\"")
-        out_str = generate_ouput(val_in, q.inch, q.cm)
-    except:
-        return
-    dispatch(message, out_str)
-
-mile_match = '(.*)mile'
-@respond_to(mile_match, re.IGNORECASE)
-@listen_to(mile_match, re.IGNORECASE)
-def MiletoKM(message, incoming_message):
-    try:
-        val_in = parse_value(incoming_message, "mile")
-        out_str = generate_ouput(val_in, q.mile, q.km)
-    except:
-        return
-    dispatch(message, out_str)
-
-km_match = '(.*)km'
-@respond_to(km_match, re.IGNORECASE)
-@listen_to(km_match, re.IGNORECASE)
-def KMtoMile(message, incoming_message):
-    try:
-        val_in = parse_value(incoming_message, "mile")
-        out_str = generate_ouput(val_in, q.km, q.mile)
-    except:
-        return
-    dispatch(message, out_str)
