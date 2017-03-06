@@ -66,6 +66,8 @@ unit_dict = {
     'gallon': [q.gallon, q.L],
     'g': [q.g, q.oz],
     'oz': [q.oz, q.g],
+    'fl_oz': [q.floz, q.mL],
+    'floz': [q.floz, q.mL],
     'kg': [q.kg, q.lb],
     'lb': [q.lb, q.kg],
     'm': [q.m, q.inch],
