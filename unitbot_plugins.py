@@ -74,10 +74,16 @@ unit_dict = {
 # triggered if a msg contain '"number""something"' or '"number"" ""something"'
 F_match = '(\d{1,}) (.*)'
 F_match1 = '(\d{1,})(.*)'
+F_match2 = '(\d{1,}\.\d{1,})(.*)'
+F_match3 = '(\d{1,}\.\d{1,}) (.*)'
 @respond_to(F_match, re.IGNORECASE)
 @listen_to(F_match, re.IGNORECASE)
 @respond_to(F_match1, re.IGNORECASE)
 @listen_to(F_match1, re.IGNORECASE)
+@respond_to(F_match2, re.IGNORECASE)
+@listen_to(F_match2, re.IGNORECASE)
+@respond_to(F_match3, re.IGNORECASE)
+@listen_to(F_match3, re.IGNORECASE)
 def find_match(message, value, unit):
     try:
         val_in = float(value)
