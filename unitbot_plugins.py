@@ -68,6 +68,7 @@ unit_dict = {
     'oz': [q.oz, q.g],
     'fl_oz': [q.floz, q.mL],
     'floz': [q.floz, q.mL],
+    'mL' : [q.mL, q.floz],
     'kg': [q.kg, q.lb],
     'lb': [q.lb, q.kg],
     'm': [q.m, q.inch],
